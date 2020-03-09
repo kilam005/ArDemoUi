@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {SearchresultService} from "./searchresult.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-search',
@@ -9,27 +11,59 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 
 export class SearchComponent implements OnInit {
-
+  search = '';
   showAdvancedSearch:boolean = false;
   displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'totalInvoices', 'doj','details'];
-  dataSource = new MatTableDataSource();
+  dataSource: MatTableDataSource<any>;
   showResults:boolean = false;
   userView:boolean;
   iconName:string = 'keyboard_arrow_down';
+  ID = '';
+  FNAME = '';
+  LNAME = '';
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   showPaginator:false;
-
-  constructor() { 
+  showSpinner = false;
+  constructor(private resultService: SearchresultService, private dialof: MatDialog) {
   }
+
+
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
     this.dataSource.paginator = this.paginator;
   }
+  refresh() {
+    this.search = '';
+  }
+
+  toggleSearch()
+  {
+    this.showSpinner =  true ;
+    this.resultService.getPatientWildSearch(this.search).subscribe(res => {
+      this.showSpinner = false;
+      this.showResults = true;
+      this.dataSource.data = res;
+    }, (err => {
+      this.showSpinner = false;
+    }));
+    // this.dataSource.data = this.tabledata;
+  }
+
+   performAdvancedSearch() {
+    // this.dataSource.data = this.data;
+    this.resultService.getPatientAdvSearch(this.FNAME, this.LNAME,this.ID).subscribe(res => {
+      this.dataSource.data = res;
+      this.showSpinner = false;
+      this.showResults = true;
+    }, (err => {
+      this.showSpinner = false;
+    }));
+  }
 
   toggleAdvancedSearch(){
     this.showAdvancedSearch = !this.showAdvancedSearch;
-    this.iconName = this.showAdvancedSearch ? 'keyboard_arrow_up' : 'keyboard_arrow_down'; 
+    this.iconName = this.showAdvancedSearch ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
   navitoUserView(){

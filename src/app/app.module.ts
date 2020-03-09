@@ -14,6 +14,8 @@ import { HeaderComponent } from './header/header.component';
 import { SearchComponent } from './search/search.component';
 import { UserviewComponent } from './userview/userview.component';
 import { MaterialModule } from './material.module';
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { MaterialModule } from './material.module';
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
