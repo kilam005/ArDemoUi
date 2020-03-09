@@ -1,21 +1,39 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-userview',
   templateUrl: './userview.component.html',
   styleUrls: ['./userview.component.css']
 })
-export class UserviewComponent implements OnInit {
+export class UserviewComponent implements OnInit, AfterViewInit {
   
   displayedColumns = ['invoice_id', 'order_details', 'purchaseDate', 'totalCost','amountPaid', 'amountDue','details'];
-  dataSource = ELEMENT_DATA;
-  
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  displayedColumnsInvoice = ['invoice_id', 'payment_id', 'totalCost','mode'];
+  dataSource = new MatTableDataSource();
+  invoiceDS = new MatTableDataSource();
+  showInvoiceData:boolean = false
+  hideMainTable:boolean = true;
 
-  constructor() { }
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  
+  constructor() { 
+  }
   
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+    this.invoiceDS = new MatTableDataSource(invoice_data);
+  }
+
+  ngAfterViewInit(){
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    this.invoiceDS.paginator = this.paginator.toArray()[1];
+  }
+
+  toggleInvoiceChart(){
+    this.showInvoiceData = !this.showInvoiceData;
+    this.hideMainTable = !this.hideMainTable;
   }
 
 }
@@ -129,3 +147,104 @@ const ELEMENT_DATA = [
   }
   ];
   
+const invoice_data = [{
+  "invoice_id": 1,
+  "payment_id": "mastercard",
+  "totalCost": "$70871.80",
+  "mode": "instapayment"
+}, {
+  "invoice_id": 2,
+  "payment_id": "diners-club-carte-blanche",
+  "totalCost": "$60331.25",
+  "mode": "maestro"
+}, {
+  "invoice_id": 3,
+  "payment_id": "china-unionpay",
+  "totalCost": "$21450.82",
+  "mode": "jcb"
+}, {
+  "invoice_id": 4,
+  "payment_id": "jcb",
+  "totalCost": "$20991.94",
+  "mode": "mastercard"
+}, {
+  "invoice_id": 5,
+  "payment_id": "switch",
+  "totalCost": "$71190.87",
+  "mode": "visa"
+}, {
+  "invoice_id": 6,
+  "payment_id": "jcb",
+  "totalCost": "$80373.23",
+  "mode": "jcb"
+}, {
+  "invoice_id": 7,
+  "payment_id": "jcb",
+  "totalCost": "$9553.60",
+  "mode": "switch"
+}, {
+  "invoice_id": 8,
+  "payment_id": "jcb",
+  "totalCost": "$79270.66",
+  "mode": "jcb"
+}, {
+  "invoice_id": 9,
+  "payment_id": "jcb",
+  "totalCost": "$92134.86",
+  "mode": "diners-club-enroute"
+}, {
+  "invoice_id": 10,
+  "payment_id": "mastercard",
+  "totalCost": "$6464.70",
+  "mode": "jcb"
+}, {
+  "invoice_id": 11,
+  "payment_id": "diners-club-enroute",
+  "totalCost": "$44565.76",
+  "mode": "jcb"
+}, {
+  "invoice_id": 12,
+  "payment_id": "china-unionpay",
+  "totalCost": "$37065.31",
+  "mode": "solo"
+}, {
+  "invoice_id": 13,
+  "payment_id": "jcb",
+  "totalCost": "$94686.52",
+  "mode": "jcb"
+}, {
+  "invoice_id": 14,
+  "payment_id": "jcb",
+  "totalCost": "$69606.61",
+  "mode": "jcb"
+}, {
+  "invoice_id": 15,
+  "payment_id": "mastercard",
+  "totalCost": "$84106.11",
+  "mode": "jcb"
+}, {
+  "invoice_id": 16,
+  "payment_id": "jcb",
+  "totalCost": "$38233.51",
+  "mode": "solo"
+}, {
+  "invoice_id": 17,
+  "payment_id": "jcb",
+  "totalCost": "$96013.70",
+  "mode": "jcb"
+}, {
+  "invoice_id": 18,
+  "payment_id": "switch",
+  "totalCost": "$28053.90",
+  "mode": "jcb"
+}, {
+  "invoice_id": 19,
+  "payment_id": "jcb",
+  "totalCost": "$72297.75",
+  "mode": "jcb"
+}, {
+  "invoice_id": 20,
+  "payment_id": "switch",
+  "totalCost": "$91719.53",
+  "mode": "diners-club-carte-blanche"
+}]

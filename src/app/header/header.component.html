@@ -2,7 +2,17 @@
   <mat-toolbar-row>
     <span>AR</span>
     <span class="spacer"></span>
-    <mat-icon style="padding-right: 24px;">search</mat-icon>
+    <div class="icon" style="display: flex;padding-right: 16px;" >
+      <button mat-icon-button aria-label="Example icon-button with a heart icon">
+        <mat-icon>list</mat-icon>
+      </button>
+    </div>
+    <div class="icon" style="display: flex; padding-right: 16px;">
+      <button mat-icon-button aria-label="Example icon-button with a heart icon">
+        <mat-icon>pie_chart</mat-icon>
+      </button>
+    </div>
+    <a  style="padding-top: 10px;color: white; "[routerLink]="['/search']"><mat-icon style="padding-right: 24px;" >search</mat-icon></a>
     <div class="icon" style="display: flex;">
       <mat-icon>perm_identity</mat-icon>
     </div>
