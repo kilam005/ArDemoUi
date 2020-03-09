@@ -21,6 +21,7 @@ export class UserviewComponent implements OnInit, AfterViewInit {
     userfName = 'FUser';
     userlName = 'LUser';
     letters = 'FL';
+    showNoresults = false;
 
     lineChartData: Array<any> = [
         {data: [40], label: 'Amount Recieved List'},
@@ -68,9 +69,11 @@ export class UserviewComponent implements OnInit, AfterViewInit {
         this.letters = this.userfName.charAt(0) + this.userlName.charAt(0);
         this.resultService.getInvoiceDetails(this.userId).subscribe(res => {
             this.dataSource = new MatTableDataSource(res);
+            this.showNoresults = res.length === 0;
         });
         this.resultService.getarDetails(this.userId).subscribe(res => {
             this.invoiceDS = res.ledgerModelList;
+            this.showNoresults = res.length === 0;
         });
     }
 
