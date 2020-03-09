@@ -19,6 +19,39 @@ export class UserviewComponent implements OnInit, AfterViewInit {
   hideMainTable:boolean = true;
   userId ='';
 
+  lineChartData: Array<any> = [
+    { data: [40], label: 'Amount Recieved List' },
+    { data: [90], label: 'Amount Recievable List' },
+  ];
+  currentLineChartLabelsIdx = 0;
+  lineChartLabels: Array<any>;
+  lineChartOptions: any = {
+    responsive: true
+  };
+  lineChartColors: Array<any> = [
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    },
+    { // dark grey
+      backgroundColor: 'rgba(77,83,96,0.2)',
+      borderColor: 'rgba(77,83,96,1)',
+      pointBackgroundColor: 'rgba(77,83,96,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    },
+  ];
+  public lineChartLegend = true;
+  public lineChartType = 'line';
+  updateData: any;
+  isUpdate: boolean;
+  removing: any;
+
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
 
