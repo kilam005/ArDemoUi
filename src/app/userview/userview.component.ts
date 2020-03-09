@@ -64,7 +64,7 @@ export class UserviewComponent implements OnInit, AfterViewInit {
       this.dataSource = new MatTableDataSource(res);
     });
     this.resultService.getarDetails(this.userId).subscribe(res => {
-      this.invoiceDS = new MatTableDataSource(res.ledgerModelList);
+      this.invoiceDS = res.ledgerModelList;
     });
   }
 
