@@ -1,22 +1,29 @@
-<div class="search-container" fxLayout="column" fxLayoutGap="20px">
+<div fxLayout="column" fxLayoutGap="20px">
+
     <ng-container *ngIf="showSpinner">
         <div class="mat-spinner-loader">
             <mat-spinner></mat-spinner>
         </div>
     </ng-container>
-    <mat-card class="form-container" fxFlex="100" class="mat-elevation-z4">
+
+    <mat-card fxFlex="100" class="mat-elevation-z4">
         <mat-form-field style="width: 100%;">
             <input matInput [(ngModel)]="search" #searchTemp placeholder="Search for User name or ID">
-<!--            <input matInput placeholder="Search for User name or ID">-->
-            <button mat-icon-button matSuffix (click)="toggleSearch()">
+
+            <button [disabled]="search.length === 0" class="searchIconSize" mat-icon-button matSuffix
+                    (click)="toggleSearch()">
                 <mat-icon>search</mat-icon>
             </button>
-            <button mat-icon-button matSuffix (click)="toggleAdvancedSearch()">
+
+            <button class="searchIconSize" mat-icon-button matSuffix (click)="toggleAdvancedSearch()">
                 <mat-icon>{{iconName}}</mat-icon>
             </button>
-            <button mat-icon-button matSuffix (click)="showResults =  false">
+
+            <button [disabled]="search.length === 0" class="searchIconSize" mat-icon-button matSuffix
+                    (click)="showResults =  false">
                 <mat-icon>refresh</mat-icon>
             </button>
+
         </mat-form-field>
     </mat-card>
 
@@ -41,67 +48,78 @@
             </div>
             <div fxFlex="" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px">
                 <div>
-                    <button mat-flat-button color="primary" (click)="showResults = false">Reset</button>
+                    <button [disabled]="ID.length === 0 && FNAME.length ===0 && LNAME.length === 0" mat-raised-button
+                            color="primary" (click)="showResults = false">Reset
+                    </button>
                 </div>
                 <div>
-                    <button mat-flat-button color="primary" (click)="performAdvancedSearch()">Search</button>
+                    <button [disabled]="ID.length === 0 && FNAME.length ===0 && LNAME.length === 0" mat-raised-button
+                            color="primary" (click)="performAdvancedSearch()">Search
+                    </button>
                 </div>
             </div>
         </div>
     </mat-card>
 
-    <mat-card [fxShow]="showResults" class="mat-elevation-z4">
+    <mat-card [fxShow]="showResults" class="mat-elevation-z4" fxLayout="column" fxLayoutGap="12px">
         <div class="scroll">
             <table mat-table aria-describedby="asc" [dataSource]="dataSource" matSort>
 
-            <ng-container matColumnDef="userId">
-                <th mat-header-cell *matHeaderCellDef> User ID</th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-            </ng-container>
+                <ng-container matColumnDef="userId">
+                    <th mat-header-cell *matHeaderCellDef> User ID</th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="firstName">
-                <th mat-header-cell *matHeaderCellDef> First Name</th>
-                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-            </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef> First Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="lastName">
-                <th mat-header-cell *matHeaderCellDef> Last Name</th>
-                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-            </ng-container>
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef> Last Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="totalInvoices">
-                <th mat-header-cell *matHeaderCellDef> Total Invoices</th>
-                <td mat-cell *matCellDef="let element"> {{element.invoiceCount}} </td>
-            </ng-container>
+                <ng-container matColumnDef="totalInvoices">
+                    <th mat-header-cell *matHeaderCellDef> Total Invoices</th>
+                    <td mat-cell *matCellDef="let element"> {{element.invoiceCount}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="doj">
-                <th mat-header-cell *matHeaderCellDef> DOJ</th>
-                <td mat-cell *matCellDef="let element"> {{element.doj | date}} </td>
-            </ng-container>
+                <ng-container matColumnDef="doj">
+                    <th mat-header-cell *matHeaderCellDef> DOJ</th>
+                    <td mat-cell *matCellDef="let element"> {{element.doj | date}} </td>
+                </ng-container>
 
                 <ng-container matColumnDef="details">
-                    <th class="details-width" mat-header-cell id="details" *matHeaderCellDef mat-sort-header> View </th>
-                    <td class="details-width" mat-cell *matCellDef="let element">
-                        <mat-icon (click)="openDetailsDialog(element.id)" matTooltip="View">call_made</mat-icon>
+                    <th mat-header-cell id="details" *matHeaderCellDef> View</th>
+                    <td mat-cell class="pointer" *matCellDef="let element">
+                        <mat-icon (click)="openDetailsDialog(element.id,element.firstName,element.lastName)"
+                                  matTooltip="Open User details" color="primary">open_in_new
+                        </mat-icon>
                     </td>
                 </ng-container>
 
-            <!--<ng-container matColumnDef="details">
-                <th mat-header-cell *matHeaderCellDef> Details</th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button>
-                        <a [routerLink]="['/user']">
-                            <mat-icon color="primary">open_in_new
-                            </mat-icon>
-                        </a>
-                    </button>
-                </td>
-            </ng-container>-->
+                <!--<ng-container matColumnDef="details">
+                    <th mat-header-cell *matHeaderCellDef> Details</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button>
+                            <a [routerLink]="['/user']">
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true;"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+                            </a>
+                        </button>
+                    </td>
+                </ng-container>-->
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
         </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center" fxFlex="" [fxShow]="showNoresults">
+            No records Available
+        </div>
+
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </mat-card>
 </div>
