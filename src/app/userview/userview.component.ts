@@ -23,9 +23,19 @@ export class UserviewComponent implements OnInit, AfterViewInit {
     letters = 'FL';
     showNoresults = false;
 
-    lineChartData: Array<any> = [
+    /*lineChartData: Array<any> = [
         {data: [40], label: 'Amount Recieved List'},
         {data: [90], label: 'Amount Recievable List'},
+    ];*/
+     lineChartData = [
+        {
+            label: "# of Votes",
+            data: [12, 19, 3, 5, 2, 3]
+        },
+        {
+            label: "# of Votes",
+            data: [12, 19, 3, 5, 2, 3]
+        }
     ];
     currentLineChartLabelsIdx = 0;
     lineChartLabels: Array<any>;
@@ -74,6 +84,13 @@ export class UserviewComponent implements OnInit, AfterViewInit {
         this.resultService.getarDetails(this.userId).subscribe(res => {
             this.invoiceDS = res.ledgerModelList;
             this.showNoresults = res.length === 0;
+            this.lineChartData[0]['label']="amount_received_list";
+            this.lineChartData[0]['data'] = JSON.parse(JSON.stringify(res.amount_received_list));
+            this.lineChartData = this.lineChartData.slice();
+
+            this.lineChartData[1]['label']="amount_receivable_list";
+            this.lineChartData[1]['data'] = JSON.parse(JSON.stringify(res.amount_receivable_list));
+            this.lineChartData = this.lineChartData.slice();
         });
     }
 
