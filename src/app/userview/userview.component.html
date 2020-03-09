@@ -98,16 +98,16 @@
           </div>
           <div class="price-container" fxFlex="100" style="display: flex;flex-direction: row;align-items: center;width: 100%;padding: 24px 0px;border-bottom: 1px solid #efefef;">
             <div fxFlex="33.33" style="display:flex;flex-direction: column;">
-              <span>Total Amount</span>
-              <span>$1455</span>
+              <span class="text-muted">Total Amount</span>
+              <span class="fnt-24">$1455</span>
             </div>
             <div fxFlex="33.33" style="display:flex;flex-direction: column;">
-              <span>Total Amount Paid</span>
-              <span>$1455</span>
+              <span class="text-muted">Total Amount Paid</span>
+              <span class="fnt-24">$1000</span>
             </div>
             <div fxFlex="33.33" style="display:flex;flex-direction: column;">
-              <span>Total Amount Due</span>
-              <span>$1455</span>
+              <span class="text-muted">Total Amount Due</span>
+              <span class="fnt-24">$455</span>
             </div>
           </div>
           <div class="table-container" style="width: 100%;padding: 15px 10px 10px 5px;">
@@ -140,7 +140,11 @@
           </div>
         </div>
       </mat-card>
-      <mat-card fxFlex="50"></mat-card>
+      <mat-card fxFlex="50">
+        <canvas *ngIf="true" ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels"
+    [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+    [chartType]="lineChartType" [adding]="updateData" [removing]="removing"></canvas>
+      </mat-card>
     </div>
   </div>
 </div>

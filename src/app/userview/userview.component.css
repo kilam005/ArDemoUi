@@ -20,3 +20,12 @@
 table{
   width: 100%;
 }
+
+.text-muted{
+  color: #6c757d!important;
+  font-size: 14px;
+}
+
+.fnt-24{
+  font-size: 24px;
+}
