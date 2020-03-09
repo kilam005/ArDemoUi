@@ -3,6 +3,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {SearchresultService} from "./searchresult.service";
 import {MatDialog} from "@angular/material/dialog";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -12,6 +13,7 @@ import {MatDialog} from "@angular/material/dialog";
 
 export class SearchComponent implements OnInit {
   search = '';
+  user = '';
   showAdvancedSearch:boolean = false;
   displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'totalInvoices', 'doj','details'];
   dataSource: MatTableDataSource<any>;
@@ -24,7 +26,7 @@ export class SearchComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   showPaginator:false;
   showSpinner = false;
-  constructor(private resultService: SearchresultService, private dialof: MatDialog) {
+  constructor(private resultService: SearchresultService,  private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
 
@@ -64,6 +66,17 @@ export class SearchComponent implements OnInit {
   toggleAdvancedSearch(){
     this.showAdvancedSearch = !this.showAdvancedSearch;
     this.iconName = this.showAdvancedSearch ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+  }
+
+
+  openDetailsDialog(id) {
+    const param: any = { pid: id};
+    // this.dialof.open(DetailsDialogComponent, {
+    //   data: param
+    // });
+    // this.resultService.setSelectedPatientInfo(param);
+    sessionStorage.setItem('id', id);
+     this.router.navigate(['/user']);
   }
 
   navitoUserView(){
