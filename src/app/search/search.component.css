@@ -1,0 +1,10 @@
+
+table{
+  width: 100%;
+  border: 1px solid #efefef;
+}
+
+.scroll{
+  max-height: 65vh;
+  overflow: auto;
+}

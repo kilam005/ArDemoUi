@@ -1,0 +1,23 @@
+[data-letters]:before {
+  content:attr(data-letters);
+  display:inline-block;
+  font-size:1em;
+  width:4.5em;
+  height:4.5em;
+  line-height:4.5em;
+  text-align:center;
+  border-radius:50%;
+  background:#0a85f8;
+  vertical-align:middle;
+  margin-right:1em;
+  color:white;
+}
+
+.width-80{
+  width: 80%;
+}
+
+table{
+  width: 100%;
+  border: 1px solid #000;
+}
