@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import {ActivatedRoute} from "@angular/router";
+import {SearchresultService} from "../search/searchresult.service";
 
 @Component({
   selector: 'app-userview',
@@ -13,6 +15,7 @@ export class UserviewComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource();
   showInvoiceData:boolean = false
   hideMainTable:boolean = true;
+  userId ='';
 
   lineChartData: Array<any> = [
     { data: [40], label: 'Amount Recieved List' },
@@ -48,12 +51,17 @@ export class UserviewComponent implements OnInit, AfterViewInit {
   removing: any;
 
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
-  
-  constructor() { 
+
+  constructor(private activatedRoute: ActivatedRoute,private resultService: SearchresultService) {
   }
+
   
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+    this.userId = sessionStorage.getItem('id');
+    this.resultService.getInvoiceDetails(this.userId).subscribe(res => {
+      this.dataSource = new MatTableDataSource(res);
+    });
+    // this.dataSource = new MatTableDataSource(ELEMENT_DATA);
   }
 
   ngAfterViewInit(){

@@ -36,6 +36,10 @@ export class SearchresultService {
   }
 
 
+  getarinvoiceDetails(id,invoiceID): Observable<any> {
+    return this.http.get<any>(this.arsummaryUrl + `userID=${id}&invoiceID=${invoiceID}`,
+        {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }}).pipe(map(this.extractObject));
+  }
 
   private extractObject(res: any) {
     const body = res;

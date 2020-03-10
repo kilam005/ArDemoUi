@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
+import {ActivatedRoute, Router} from "@angular/router";
+import {SearchresultService} from "../search/searchresult.service";
 
 @Component({
   selector: 'app-arview',
@@ -10,6 +12,8 @@ export class ArviewComponent implements OnInit {
 
   invoiceDS = new MatTableDataSource();
   displayedColumnsInvoice = ['invoice_id', 'payment_id', 'totalCost','mode'];
+  invoiceid ='';
+  UserId = '';
 
   lineChartData: Array<any> = [
     { data: [40], label: 'Amount Recieved List' },
@@ -46,10 +50,23 @@ export class ArviewComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   
-  constructor() { }
+  constructor(private router: Router, private activatedRouter: ActivatedRoute,private resultService: SearchresultService) { }
 
   ngOnInit(): void {
-    this.invoiceDS = new MatTableDataSource(invoice_data);
+    this.UserId = sessionStorage.getItem('id');
+    this.invoiceid = this.activatedRouter.snapshot.paramMap.get('id');
+
+    this.resultService.getarinvoiceDetails(this.UserId,this.invoiceid).subscribe(res => {
+      this.invoiceDS = res.ledgerModelList;
+
+      this.lineChartData[0]['label']="amount_received_list";
+      this.lineChartData[0]['data'] = JSON.parse(JSON.stringify(res.amount_received_list));
+      this.lineChartData = this.lineChartData.slice();
+
+      this.lineChartData[1]['label']="amount_received_list";
+      this.lineChartData[1]['data'] = JSON.parse(JSON.stringify(res.amount_received_list));
+      this.lineChartData = this.lineChartData.slice();
+    });
     this.invoiceDS.paginator = this.paginator;
   }
 
