@@ -12,16 +12,16 @@
         <div class="form-container" style="display: flex;flex-direction: row;justify-content: flex-end;align-items: center;" fxFlex="100">
           <div class="width-80" fxFlex="15">
             <mat-form-field>
-              <input matInput placeholder="Purchase Date (From)">
+              <input [(ngModel)]="pfromdate" matInput placeholder="Purchase Date (From)">
             </mat-form-field>
           </div>
           <div class="width-80" fxFlex="15">
             <mat-form-field>
-              <input matInput placeholder="Purchase Date (To)">
+              <input  [(ngModel)]="ptodate" matInput placeholder="Purchase Date (To)">
             </mat-form-field>
           </div>
           <div class="btn">
-            <button mat-flat-button color="primary">Apply</button>
+            <button mat-flat-button color="primary" (click)="getSortedpurchaseData()">Apply</button>
           </div>
         </div>
         <div class="table-container" style="width: 100%;">

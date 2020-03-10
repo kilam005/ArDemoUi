@@ -14,6 +14,9 @@ export class ArviewComponent implements OnInit {
   displayedColumnsInvoice = ['invoice_id', 'payment_id', 'totalCost','mode'];
   invoiceid ='';
   UserId = '';
+  inid = '';
+  arfromdate = '';
+  artodate = '';
 
   lineChartData: Array<any> = [
     { data: [40], label: 'Amount Recieved List' },
@@ -70,7 +73,27 @@ export class ArviewComponent implements OnInit {
     this.invoiceDS.paginator = this.paginator;
   }
 
+  getSortedArData(){
+    this.UserId = sessionStorage.getItem('id');
+    this.invoiceid = this.activatedRouter.snapshot.paramMap.get('id');
+    this.resultService.getdifferencearinvoiceDetails(this.arfromdate, this.artodate, this.UserId,this.invoiceid).subscribe(res => {
+      this.invoiceDS = res.ledgerModelList;
+
+      this.lineChartData[0]['label']="amount_received_list";
+      this.lineChartData[0]['data'] = JSON.parse(JSON.stringify(res.amount_received_list));
+      this.lineChartData = this.lineChartData.slice();
+
+      this.lineChartData[1]['label']="amount_received_list";
+      this.lineChartData[1]['data'] = JSON.parse(JSON.stringify(res.amount_received_list));
+      this.lineChartData = this.lineChartData.slice();
+    });
+    this.invoiceDS.paginator = this.paginator;
+
+  }
+
 }
+
+
 
 const invoice_data = [{
   "invoice_id": 1,

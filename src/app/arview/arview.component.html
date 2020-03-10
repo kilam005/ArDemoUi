@@ -12,21 +12,21 @@
         <div style="display: flex;flex-direction: row;align-items: center;width: 100%;padding: 24px 0px;border-bottom: 1px solid #efefef;">
           <div class="form" fxFlex="30">
             <mat-form-field>
-              <input matInput placeholder="Invoice ID">
+              <input matInput placeholder="Invoice ID" [(ngModel)]="inid">
             </mat-form-field>
           </div>
           <div class="form" fxFlex="30">
             <mat-form-field>
-              <input matInput placeholder="Payment Date (From)">
+              <input matInput placeholder="Payment Date (From)"  [(ngModel)]="arfromdate">
             </mat-form-field>
           </div>
           <div class="form" fxFlex="30">
             <mat-form-field>
-              <input matInput placeholder="Payment Date (To)">
+              <input matInput placeholder="Payment Date (To)" [(ngModel)]="artodate">
             </mat-form-field>
           </div>
           <div class="btn">
-            <button mat-flat-button color="primary">Apply</button>
+            <button mat-flat-button color="primary" (click)="getSortedArData()">Apply</button>
           </div>
         </div>
         <div class="price-container" fxFlex="100" style="display: flex;flex-direction: row;align-items: center;width: 100%;padding: 24px 0px;border-bottom: 1px solid #efefef;">

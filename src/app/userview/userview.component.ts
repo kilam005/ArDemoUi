@@ -16,6 +16,8 @@ export class UserviewComponent implements OnInit, AfterViewInit {
   showInvoiceData:boolean = false
   hideMainTable:boolean = true;
   userId ='';
+  pfromdate = '';
+  ptodate = '';
 
   lineChartData: Array<any> = [
     { data: [40], label: 'Amount Recieved List' },
@@ -71,6 +73,14 @@ export class UserviewComponent implements OnInit, AfterViewInit {
   toggleInvoiceChart(){
     this.showInvoiceData = !this.showInvoiceData;
     this.hideMainTable = !this.hideMainTable;
+  }
+
+  getSortedpurchaseData(){
+    this.userId = sessionStorage.getItem('id');
+    this.resultService.getdifferenceInvoiceDetails(this.pfromdate, this.ptodate, this.userId).subscribe(res => {
+      this.dataSource = new MatTableDataSource(res);
+    });
+
   }
 
 }

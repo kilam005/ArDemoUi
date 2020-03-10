@@ -30,6 +30,11 @@ export class SearchresultService {
         {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }}).pipe(map(this.extractObject));
   }
 
+  getdifferenceInvoiceDetails(pfromdate, ptodate,userId): Observable<any> {
+    return this.http.get<any>(this.invoiceurl +`startDate=${pfromdate}&endDate=${ptodate}&userID=${userId}&pageSize=10`,
+        {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }}).pipe(map(this.extractObject));
+  }
+
   getarDetails(id): Observable<any> {
     return this.http.get<any>(this.arsummaryUrl +`userID=`+id,
         {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }}).pipe(map(this.extractObject));
@@ -38,6 +43,12 @@ export class SearchresultService {
 
   getarinvoiceDetails(id,invoiceID): Observable<any> {
     return this.http.get<any>(this.arsummaryUrl + `userID=${id}&invoiceID=${invoiceID}`,
+        {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }}).pipe(map(this.extractObject));
+  }
+
+
+  getdifferencearinvoiceDetails(pfromdate, ptodate,id,invoiceID): Observable<any> {
+    return this.http.get<any>(this.arsummaryUrl + `startDate=${pfromdate}&endDate=${ptodate}&userID=${id}&invoiceID=${invoiceID}`,
         {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }}).pipe(map(this.extractObject));
   }
 
