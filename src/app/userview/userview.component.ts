@@ -10,9 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class UserviewComponent implements OnInit, AfterViewInit {
   
   displayedColumns = ['invoice_id', 'order_details', 'purchaseDate', 'totalCost','amountPaid', 'amountDue','details'];
-  displayedColumnsInvoice = ['invoice_id', 'payment_id', 'totalCost','mode'];
   dataSource = new MatTableDataSource();
-  invoiceDS = new MatTableDataSource();
   showInvoiceData:boolean = false
   hideMainTable:boolean = true;
 
@@ -56,12 +54,10 @@ export class UserviewComponent implements OnInit, AfterViewInit {
   
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-    this.invoiceDS = new MatTableDataSource(invoice_data);
   }
 
   ngAfterViewInit(){
     this.dataSource.paginator = this.paginator.toArray()[0];
-    this.invoiceDS.paginator = this.paginator.toArray()[1];
   }
 
   toggleInvoiceChart(){
