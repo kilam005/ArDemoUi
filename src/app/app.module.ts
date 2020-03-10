@@ -13,12 +13,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderComponent } from './header/header.component';
 import { SearchComponent } from './search/search.component';
 import { UserviewComponent } from './userview/userview.component';
+
 import { MaterialModule } from './material.module';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 
 import { NgChartjsModule } from 'ng-chartjs';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
+import { ArviewComponent } from './arview/arview.component';
 
 const chartAnnotation = ChartAnnotation;
 
@@ -75,7 +77,8 @@ const horizonalLinePlugin = {
     AppComponent,
     HeaderComponent,
     SearchComponent,
-    UserviewComponent
+    UserviewComponent,
+    ArviewComponent
   ],
   imports: [
     BrowserModule,

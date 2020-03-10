@@ -1,0 +1,82 @@
+<div class="ar-container" style="display: flex; flex-direction: column;">
+  <div class="icon-logo" style="margin-bottom: 24px;">
+    <mat-card class="example-card">
+        <div data-letters="US">
+          <span style="font-size: 16px;">User 001</span>
+        </div>
+    </mat-card>
+  </div>
+  <div class="invoice-container"fxFlex="100" fxLayoutGap="20px">
+    <mat-card class="invoice-container" fxFlex="50">
+      <div class="invoice" fxFlex="100" style="display: flex;flex-direction:column;align-items: center;">
+        <div style="display: flex;flex-direction: row;align-items: center;width: 100%;padding: 24px 0px;border-bottom: 1px solid #efefef;">
+          <div class="form" fxFlex="30">
+            <mat-form-field>
+              <input matInput placeholder="Invoice ID">
+            </mat-form-field>
+          </div>
+          <div class="form" fxFlex="30">
+            <mat-form-field>
+              <input matInput placeholder="Payment Date (From)">
+            </mat-form-field>
+          </div>
+          <div class="form" fxFlex="30">
+            <mat-form-field>
+              <input matInput placeholder="Payment Date (To)">
+            </mat-form-field>
+          </div>
+          <div class="btn">
+            <button mat-flat-button color="primary">Apply</button>
+          </div>
+        </div>
+        <div class="price-container" fxFlex="100" style="display: flex;flex-direction: row;align-items: center;width: 100%;padding: 24px 0px;border-bottom: 1px solid #efefef;">
+          <div fxFlex="33.33" style="display:flex;flex-direction: column;">
+            <span class="text-muted">Total Amount</span>
+            <span class="fnt-24">$1455</span>
+          </div>
+          <div fxFlex="33.33" style="display:flex;flex-direction: column;">
+            <span class="text-muted">Total Amount Paid</span>
+            <span class="fnt-24">$1000</span>
+          </div>
+          <div fxFlex="33.33" style="display:flex;flex-direction: column;">
+            <span class="text-muted">Total Amount Due</span>
+            <span class="fnt-24">$455</span>
+          </div>
+        </div>
+        <div class="table-container" style="width: 100%;padding: 15px 10px 10px 5px;">
+          <table mat-table [dataSource]="invoiceDS" style="border: 1px solid whitesmoke;">
+
+            <ng-container matColumnDef="invoice_id">
+              <th mat-header-cell *matHeaderCellDef> Invoice ID </th>
+              <td mat-cell *matCellDef="let element"> {{element.invoice_id}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="payment_id">
+              <th mat-header-cell *matHeaderCellDef> Payment ID </th>
+              <td mat-cell *matCellDef="let element"> {{element.payment_id}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="totalCost">
+              <th mat-header-cell *matHeaderCellDef>Total Cost </th>
+              <td mat-cell *matCellDef="let element"> {{element.totalCost}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="mode">
+              <th mat-header-cell *matHeaderCellDef> Mode </th>
+              <td mat-cell *matCellDef="let element"> {{element.mode}} </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsInvoice"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsInvoice;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card fxFlex="50">
+      <canvas *ngIf="true" ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels"
+  [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+  [chartType]="lineChartType" [adding]="updateData" [removing]="removing"></canvas>
+    </mat-card>
+  </div>
+</div>
