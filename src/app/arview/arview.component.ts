@@ -69,6 +69,9 @@ export class ArviewComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.UserId = sessionStorage.getItem('id');
+        if (this.UserId == null || this.UserId === undefined) {
+            this.router.navigate(['/search']);
+        }
         this.userFirstName = sessionStorage.getItem('fname');
         this.userLastName = sessionStorage.getItem('lname');
 

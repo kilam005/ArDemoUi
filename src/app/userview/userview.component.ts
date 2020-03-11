@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SearchresultService} from '../search/searchresult.service';
 import {formatDate} from '@angular/common';
 
@@ -26,12 +26,15 @@ export class UserviewComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-    constructor(private activatedRoute: ActivatedRoute, private resultService: SearchresultService) {
+    constructor(private activatedRoute: ActivatedRoute, private resultService: SearchresultService, private router: Router) {
     }
 
 
     ngOnInit(): void {
         this.userId = sessionStorage.getItem('id');
+        if (this.userId == null || this.userId === undefined) {
+            this.router.navigate(['/search']);
+        }
         this.userFirstName = sessionStorage.getItem('fname');
         this.userLastName = sessionStorage.getItem('lname');
         this.dataSource = new MatTableDataSource();

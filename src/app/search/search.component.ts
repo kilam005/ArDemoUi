@@ -31,6 +31,9 @@ export class SearchComponent implements OnInit {
 
 
     ngOnInit() {
+        sessionStorage.removeItem('id');
+        sessionStorage.removeItem('fname');
+        sessionStorage.removeItem('lname');
         this.dataSource = new MatTableDataSource();
         this.dataSource.paginator = this.paginator;
     }
