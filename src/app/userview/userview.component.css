@@ -1,44 +1,44 @@
 [data-letters]:before {
-  content:attr(data-letters);
-  display:inline-block;
-  font-size:1em;
-  width:4.5em;
-  height:4.5em;
-  line-height:4.5em;
-  text-align:center;
-  border-radius:50%;
-  background:#0a85f8;
-  vertical-align:middle;
-  margin-right:1em;
-  color:white;
+    content: attr(data-letters);
+    display: inline-block;
+    font-size: 1em;
+    width: 4.5em;
+    height: 4.5em;
+    line-height: 4.5em;
+    text-align: center;
+    border-radius: 50%;
+    background: #0a85f8;
+    vertical-align: middle;
+    margin-right: 1em;
+    color: white;
 }
 
-table{
-  width: 100%;
+table {
+    width: 100%;
+}
+
+.orderContent {
+    min-width: max(20%, 150px);
+    text-align: center;
+}
+
+.centerContent {
+    min-width: max(20%, 250px);
+    text-align: center;
 }
 
 .money {
-  min-width:max(20%, 250px);
-  text-align: right;
-  padding-right: 20px;
+    min-width: max(20%, 250px);
+    text-align: right;
+    padding-right: 20px;
 }
 
-.orderContent{
-  min-width:max(20%, 150px);
-  text-align: center;
+.leftContent {
+    min-width: max(10%, 100px);
+    text-align: left;
 }
 
-.centerContent{
-  min-width:max(20%, 250px);
-  text-align: center;
-}
-
-.leftContent{
-  min-width: max(10%, 100px);
-   text-align: left;
- }
-
-.rightContent{
-  min-width: max(10%, 100px);
-  text-align: right;
+.rightContent {
+    min-width: max(10%, 100px);
+    text-align: right;
 }

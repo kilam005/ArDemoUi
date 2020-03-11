@@ -7,7 +7,7 @@
     </mat-card>
 
 
-    <div>
+    <div fxFlex="100">
         <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutGap="12px" fxFlex="100">
 
             <div><h3>Invoice List</h3></div>
@@ -29,6 +29,9 @@
                 </div>
             </div>
 
+            <div>
+                <mat-divider></mat-divider>
+            </div>
             <div fxFlex="100" style="overflow-x: scroll">
                 <table mat-table [dataSource]="dataSource">
                     <ng-container matColumnDef="invoice_id" sticky>
