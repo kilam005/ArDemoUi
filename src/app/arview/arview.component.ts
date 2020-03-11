@@ -13,7 +13,7 @@ import {formatDate} from '@angular/common';
 export class ArviewComponent implements OnInit, AfterViewInit {
 
     arSummary;
-    dataSource = new MatTableDataSource();
+    dataSource: MatTableDataSource<any>;
     displayedColumnsInvoice = ['invoice_id', 'transaction_date', 'payment_id', 'totalCost'];
     invoiceId = '';
     UserId = '';
@@ -64,14 +64,14 @@ export class ArviewComponent implements OnInit, AfterViewInit {
     removing: any;
 
 
-
     constructor(private router: Router, private activatedRouter: ActivatedRoute, private resultService: SearchresultService) {
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.UserId = sessionStorage.getItem('id');
         this.userFirstName = sessionStorage.getItem('fname');
         this.userLastName = sessionStorage.getItem('lname');
+
         this.dataSource = new MatTableDataSource();
         this.dataSource.paginator = this.paginator;
 
@@ -92,8 +92,9 @@ export class ArviewComponent implements OnInit, AfterViewInit {
     }
 
     process(res: any) {
+        console.log(res);
         this.arSummary = res.arSummary;
-        this.dataSource = res.ledgerModelList;
+        this.dataSource.data = res.ledgerModelList;
         this.dataSource.paginator = this.paginator;
         this.doChart(res);
     }
@@ -110,14 +111,7 @@ export class ArviewComponent implements OnInit, AfterViewInit {
 
     getSortedArData(invIdInput, fromDateInput, toDateInput) {
         this.UserId = sessionStorage.getItem('id');
-        let invId = invIdInput;
-        if (invId === undefined || invId == null || invId === '') {
-            invId = this.activatedRouter.snapshot.paramMap.get('id');
-        }
-
-        if (invId === undefined || invId == null || invId === '') {
-            invId = '';
-        }
+        const invId = invIdInput;
 
         let fromDate = fromDateInput;
         if (fromDate === undefined || fromDate == null) {

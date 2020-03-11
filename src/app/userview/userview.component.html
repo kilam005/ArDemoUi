@@ -6,6 +6,30 @@
         </div>
     </mat-card>
 
+    <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutGap="12px" fxFlex="100">
+        <div fxLayoutGap="20px" fxLayoutAlign="space-between center" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <mat-label>Purchase Date (From)</mat-label>
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="payFromDatePicker"
+                       [(ngModel)]="paymentFromDate">
+                <mat-datepicker-toggle matSuffix [for]="payFromDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #payFromDatePicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+                <mat-label>Purchase Date (To)</mat-label>
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="payToDatePicker"
+                       [(ngModel)]="paymentToDate">
+                <mat-datepicker-toggle matSuffix [for]="payToDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #payToDatePicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div fxFlex="" fxLayoutAlign="end stretch">
+            <button mat-flat-button color="primary"
+                    (click)="getSortedPurchaseData(paymentFromDate, paymentToDate)">Apply
+            </button>
+        </div>
+    </mat-card>
 
     <div fxFlex="100">
         <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutGap="12px" fxFlex="100">
@@ -14,25 +38,7 @@
             <div>
                 <mat-divider></mat-divider>
             </div>
-
-            <div  fxLayoutGap="15px" fxLayoutAlign="end center" fxLayout="row wrap">
-                <mat-form-field>
-                    <input [(ngModel)]="pfromdate" matInput placeholder="Purchase Date (From)">
-                </mat-form-field>
-
-                <mat-form-field>
-                    <input [(ngModel)]="ptodate" matInput placeholder="Purchase Date (To)">
-                </mat-form-field>
-
-                <div>
-                    <button mat-flat-button color="primary" (click)="getSortedPurchaseData()">Apply</button>
-                </div>
-            </div>
-
-            <div>
-                <mat-divider></mat-divider>
-            </div>
-            <div fxFlex="100" style="overflow-x: scroll">
+            <div class="scroll">
                 <table mat-table [dataSource]="dataSource">
                     <ng-container matColumnDef="invoice_id" sticky>
                         <th mat-header-cell class="leftContent" *matHeaderCellDef> Invoice ID</th>
@@ -46,22 +52,26 @@
 
                     <ng-container matColumnDef="purchaseDate">
                         <th mat-header-cell class="centerContent" *matHeaderCellDef> Purchase Date</th>
-                        <td mat-cell class="centerContent" *matCellDef="let element"> {{element.purchaseDate | date : 'MM-dd-yyyy'}} </td>
+                        <td mat-cell class="centerContent"
+                            *matCellDef="let element"> {{element.purchaseDate | date : 'MM-dd-yyyy'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="totalCost">
                         <th mat-header-cell class="money" *matHeaderCellDef> Total Cost</th>
-                        <td mat-cell class="money"  *matCellDef="let element"> {{element.totalCost | currency:'USD':'symbol':'1.2-2'}} </td>
+                        <td mat-cell class="money"
+                            *matCellDef="let element"> {{element.totalCost | currency:'USD':'symbol':'1.2-2'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="amountPaid">
                         <th mat-header-cell class="money" *matHeaderCellDef> Amount Paid</th>
-                        <td mat-cell class="money" *matCellDef="let element"> {{element.amountPaid  | currency:'USD':'symbol':'1.2-2'}} </td>
+                        <td mat-cell class="money"
+                            *matCellDef="let element"> {{element.amountPaid  | currency:'USD':'symbol':'1.2-2'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="amountDue">
                         <th mat-header-cell class="money" *matHeaderCellDef> Amount Due</th>
-                        <td mat-cell class="money" *matCellDef="let element"> {{element.amountDue  | currency:'USD':'symbol':'1.2-2'}} </td>
+                        <td mat-cell class="money"
+                            *matCellDef="let element"> {{element.amountDue  | currency:'USD':'symbol':'1.2-2'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="details">
@@ -75,7 +85,7 @@
                         </td>
                     </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
             </div>

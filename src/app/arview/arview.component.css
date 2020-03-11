@@ -40,3 +40,8 @@ table {
     min-width: max(10%, 100px);
     text-align: left;
 }
+
+.scroll{
+    max-height: 40vh;
+    overflow: auto;
+}

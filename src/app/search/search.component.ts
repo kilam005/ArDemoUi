@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 export class SearchComponent implements OnInit {
     search = '';
     user = '';
+    showIcons = false;
     showAdvancedSearch = false;
     displayedColumns: string[] = ['userId', 'firstName', 'lastName', 'totalInvoices', 'doj', 'details'];
     dataSource: MatTableDataSource<any>;
