@@ -1,8 +1,8 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
     <mat-card class="mat-elevation-z4">
-        <div [attr.data-letters]="userfName.charAt(0) + userlName.charAt(0) ">
-            <span>{{ userfName }}, {{ userlName}}</span>
+        <div [attr.data-letters]="userFirstName.charAt(0) + userLastName.charAt(0) ">
+            <span>{{ userFirstName }}, {{ userLastName}}</span>
         </div>
     </mat-card>
 
@@ -25,7 +25,7 @@
                 </mat-form-field>
 
                 <div>
-                    <button mat-flat-button color="primary" (click)="getSortedpurchaseData()">Apply</button>
+                    <button mat-flat-button color="primary" (click)="getSortedPurchaseData()">Apply</button>
                 </div>
             </div>
 

@@ -1,29 +1,38 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SearchresultService} from '../search/searchresult.service';
+import {formatDate} from '@angular/common';
 
 @Component({
     selector: 'app-arview',
     templateUrl: './arview.component.html',
     styleUrls: ['./arview.component.css']
 })
-export class ArviewComponent implements OnInit {
+export class ArviewComponent implements OnInit, AfterViewInit {
 
     arSummary;
-    invoiceDS = new MatTableDataSource();
-    displayedColumnsInvoice = ['invoice_id', 'payment_id', 'totalCost'];
-    invoiceid = '';
+    dataSource = new MatTableDataSource();
+    displayedColumnsInvoice = ['invoice_id', 'transaction_date', 'payment_id', 'totalCost'];
+    invoiceId = '';
     UserId = '';
-    userfName = 'FUser';
-    userlName = 'LUser';
-    inid = '';
-    arfromdate = '';
-    artodate = '';
+    userFirstName = 'FUser';
+    userLastName = 'LUser';
+
+    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+    invIdField = '';
+    arFromDate: Date;
+    arToDate: Date;
+
+    maxDate: Date = new Date(new Date().setHours(23, 59, 59, 0));
+    minDate: Date = new Date(1970, 1, 1);
+
 
     lineChartData: Array<any> = [
-        {data: [40], label: 'Amount Recieved List'},
-        {data: [90], label: 'Amount Recievable List'},
+        {data: [40], label: 'Amount Received List'},
+        {data: [90], label: 'Amount Receivable List'},
     ];
     currentLineChartLabelsIdx = 0;
     lineChartLabels: Array<any>;
@@ -54,20 +63,25 @@ export class ArviewComponent implements OnInit {
     isUpdate: boolean;
     removing: any;
 
-    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
 
     constructor(private router: Router, private activatedRouter: ActivatedRoute, private resultService: SearchresultService) {
     }
 
     ngOnInit(): void {
         this.UserId = sessionStorage.getItem('id');
-        this.userfName = sessionStorage.getItem('fname');
-        this.userlName = sessionStorage.getItem('lname');
+        this.userFirstName = sessionStorage.getItem('fname');
+        this.userLastName = sessionStorage.getItem('lname');
+        this.dataSource = new MatTableDataSource();
+        this.dataSource.paginator = this.paginator;
 
-        this.invoiceid = this.activatedRouter.snapshot.paramMap.get('id');
+        this.invoiceId = this.activatedRouter.snapshot.paramMap.get('id');
+        if (this.invoiceId != null) {
+            this.invIdField = this.invoiceId;
+        }
 
-        if (this.invoiceid != null) {
-            this.resultService.getarDetailsByInvoice(this.UserId, this.invoiceid).subscribe(res => {
+        if (!(this.invIdField === '')) {
+            this.resultService.getarDetailsByInvoice(this.UserId, this.invIdField).subscribe(res => {
                 this.process(res);
             });
         } else {
@@ -78,10 +92,9 @@ export class ArviewComponent implements OnInit {
     }
 
     process(res: any) {
-        console.log(res);
         this.arSummary = res.arSummary;
-        this.invoiceDS = res.ledgerModelList;
-        this.invoiceDS.paginator = this.paginator;
+        this.dataSource = res.ledgerModelList;
+        this.dataSource.paginator = this.paginator;
         this.doChart(res);
     }
 
@@ -95,15 +108,37 @@ export class ArviewComponent implements OnInit {
         this.lineChartData = this.lineChartData.slice();
     }
 
-    getSortedArData() {
+    getSortedArData(invIdInput, fromDateInput, toDateInput) {
         this.UserId = sessionStorage.getItem('id');
-        this.invoiceid = this.activatedRouter.snapshot.paramMap.get('id');
-        this.resultService.getarDetailsBySearch(this.arfromdate, this.artodate, this.UserId, this.invoiceid).subscribe(res => {
-            this.invoiceDS = res.ledgerModelList;
-            this.doChart(res);
-        });
-        this.invoiceDS.paginator = this.paginator;
+        let invId = invIdInput;
+        if (invId === undefined || invId == null || invId === '') {
+            invId = this.activatedRouter.snapshot.paramMap.get('id');
+        }
 
+        if (invId === undefined || invId == null || invId === '') {
+            invId = '';
+        }
+
+        let fromDate = fromDateInput;
+        if (fromDate === undefined || fromDate == null) {
+            fromDate = new Date('1970-01-01');
+        }
+        const date1 = new Date(fromDate.setHours(0, 0, 0, 0));
+
+        let toDate = toDateInput;
+        if (toDate === undefined || toDate == null) {
+            toDate = new Date();
+        }
+        const date2 = new Date(toDate.setHours(23, 59, 59, 0));
+
+        const formattedDt1 = formatDate(date1, 'yyyy-MM-dd', 'en_US');
+        const formattedDt2 = formatDate(date2, 'yyyy-MM-dd', 'en_US');
+        this.resultService.getarDetailsBySearch(formattedDt1, formattedDt2, this.UserId, invId).subscribe(res => {
+            this.process(res);
+        });
     }
 
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
 }

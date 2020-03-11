@@ -16,8 +16,8 @@ export class UserviewComponent implements OnInit, AfterViewInit {
     userId = '';
     pfromdate = '';
     ptodate = '';
-    userfName = 'FUser';
-    userlName = 'LUser';
+    userFirstName = 'FUser';
+    userLastName = 'LUser';
 
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -28,8 +28,8 @@ export class UserviewComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         this.userId = sessionStorage.getItem('id');
-        this.userfName = sessionStorage.getItem('fname');
-        this.userlName = sessionStorage.getItem('lname');
+        this.userFirstName = sessionStorage.getItem('fname');
+        this.userLastName = sessionStorage.getItem('lname');
         this.dataSource = new MatTableDataSource();
         this.dataSource.paginator = this.paginator;
         this.resultService.getInvoiceDetails(this.userId).subscribe(res => {
@@ -42,7 +42,7 @@ export class UserviewComponent implements OnInit, AfterViewInit {
         this.dataSource.paginator = this.paginator;
     }
 
-    getSortedpurchaseData() {
+    getSortedPurchaseData() {
         this.userId = sessionStorage.getItem('id');
         this.resultService.getdifferenceInvoiceDetails(this.pfromdate, this.ptodate, this.userId).subscribe(res => {
             this.dataSource = new MatTableDataSource(res);
