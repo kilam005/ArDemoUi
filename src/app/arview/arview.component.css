@@ -17,14 +17,17 @@ table {
     width: 100%;
 }
 
-.orderContent {
-    min-width: max(20%, 150px);
-    text-align: center;
+.text-muted {
+    color: #6c757d !important;
+    font-size: 12px;
 }
 
-.centerContent {
-    min-width: max(20%, 250px);
-    text-align: center;
+.received {
+    color: green;
+}
+
+.receivable {
+    color: red;
 }
 
 .money {
@@ -36,11 +39,6 @@ table {
 .leftContent {
     min-width: max(10%, 100px);
     text-align: left;
-}
-
-.rightContent {
-    min-width: max(10%, 100px);
-    text-align: right;
 }
 
 .scroll{

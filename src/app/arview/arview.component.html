@@ -1,0 +1,122 @@
+<div fxLayout="column" fxLayoutGap="20px">
+
+    <mat-card class="mat-elevation-z4">
+        <div [attr.data-letters]="userFirstName.charAt(0) + userLastName.charAt(0) ">
+            <span>{{ userFirstName }}, {{ userLastName}}</span>
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutGap="12px" fxFlex="100">
+        <div fxFlex="100" fxLayoutGap="20px grid" fxLayoutAlign="space-around center" fxLayout="row wrap">
+            <mat-form-field fxFlex="33.33" fxFlex.lt-md="100">
+                <input matInput placeholder="Invoice ID" [(ngModel)]="invIdField">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="33.33" fxFlex.lt-md="50">
+                <mat-label>Transaction Date (From)</mat-label>
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="arFromDatePicker"
+                       [(ngModel)]="arFromDate">
+                <mat-datepicker-toggle matSuffix [for]="arFromDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #arFromDatePicker></mat-datepicker>
+            </mat-form-field>
+
+
+            <mat-form-field fxFlex="33.33" fxFlex.lt-md="50">
+                <mat-label>Transaction Date (To)</mat-label>
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="arToDatePicker"
+                       [(ngModel)]="arToDate">
+                <mat-datepicker-toggle matSuffix [for]="arToDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #arToDatePicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+
+        <div fxFlex="" fxLayoutAlign="end stretch">
+            <button mat-flat-button color="primary"
+                    (click)="getSortedArData(invIdField,arFromDate,arToDate)">Apply
+            </button>
+        </div>
+    </mat-card>
+
+    <div fxFlex="100" fxLayoutGap="20px" fxLayout="row wrap" fxLayout.lt-md="column"
+         fxLayoutAlign="space-between">
+
+        <div fxLayout="column" fxLayoutGap="20px" fxFlex="49" fxFlex.lt-md="100"
+             fxLayoutAlign="space-between">
+
+            <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutGap="20px" fxFlex="100"
+                      fxLayoutAlign="space-between">
+                <div><h3>Summary</h3></div>
+
+                <div fxFlex="100" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="20px grid"
+                     fxLayoutAlign="space-around">
+                    <div fxFlex="25" fxFlex.lt-lg="50" fxLayout="column" fxLayoutGap="5px">
+                        <span class="text-muted">Opening Balance</span>
+                        <span>{{arSummary.openingBalance | currency:'USD':'symbol':'1.2-2'}}</span>
+                    </div>
+                    <div fxFlex="25" fxFlex.lt-lg="50" fxLayout="column" fxLayoutGap="5px">
+                        <span class="text-muted">Total Receivable</span>
+                        <span>{{arSummary.totalReceivable | currency:'USD':'symbol':'1.2-2'}}</span>
+                    </div>
+                    <div fxFlex="25" fxFlex.lt-lg="50" fxLayout="column" fxLayoutGap="5px">
+                        <span class="text-muted">Total Received</span>
+                        <span>{{arSummary.totalReceived | currency:'USD':'symbol':'1.2-2'}}</span>
+                    </div>
+                    <div fxFlex="25" fxFlex.lt-lg="50" fxLayout="column" fxLayoutGap="5px">
+                        <span class="text-muted">Total Due</span>
+                        <span>{{arSummary.totalDue | currency:'USD':'symbol':'1.2-2'}}</span>
+                    </div>
+                </div>
+            </mat-card>
+
+            <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutGap="20px" fxFlex="100"
+                      fxLayoutAlign="space-between">
+                <canvas *ngIf="true" ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels"
+                        [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                        [chartType]="lineChartType" [adding]="updateData" [removing]="removing">
+                </canvas>
+            </mat-card>
+
+        </div>
+
+        <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutGap="12px" fxFlex="49" fxFlex.lt-md="100">
+            <div><h3>Transaction Details</h3></div>
+            <div>
+                <mat-divider></mat-divider>
+            </div>
+            <div class="scroll">
+                <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="invoice_id">
+                        <th class="leftContent" mat-header-cell *matHeaderCellDef> Invoice Id</th>
+                        <td class="leftContent" mat-cell *matCellDef="let element"> {{element.invoice}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="transaction_date">
+                        <th class="leftContent" mat-header-cell *matHeaderCellDef> Transaction Date</th>
+                        <td class="leftContent" mat-cell
+                            *matCellDef="let element"> {{element.date | date : 'MM-dd-yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="payment_id">
+                        <th class="money" mat-header-cell *matHeaderCellDef> Amount</th>
+                        <td class="money" [class.received]="element.paymentMode === 'AMOUNT_RECEIVED'"
+                            [class.receivable]="element.paymentMode === 'AMOUNT_RECEIVABLE'" mat-cell
+                            *matCellDef="let element"> {{element.amount | currency:'USD':'symbol':'1.2-2'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalCost">
+                        <th class="money" mat-header-cell *matHeaderCellDef> Balance</th>
+                        <td class="money" mat-cell
+                            *matCellDef="let element"> {{element.balanceReceivable | currency:'USD':'symbol':'1.2-2'}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsInvoice; sticky: true;" ></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsInvoice;"></tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100, 200, 500, 1000]" showFirstLastButtons></mat-paginator>
+        </mat-card>
+
+
+    </div>
+</div>
