@@ -77,11 +77,9 @@
                     <ng-container matColumnDef="details">
                         <th mat-header-cell class="rightContent" *matHeaderCellDef> Details</th>
                         <td mat-cell class="rightContent" *matCellDef="let element">
-                            <button mat-icon-button color="primary">
-                                <a [routerLink]="['/ar',element.invoiceID]">
-                                    <mat-icon>open_in_new</mat-icon>
-                                </a>
-                            </button>
+                            <a [routerLink]="['/ar',element.invoiceID]">
+                                <mat-icon color="primary">open_in_new</mat-icon>
+                            </a>
                         </td>
                     </ng-container>
 
