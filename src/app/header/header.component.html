@@ -7,12 +7,12 @@
         <div fxLayout="row" fxFlexAlign="center end" fxLayoutGap="16px">
             <div>
                 <a style="color: white; " [routerLink]="['/user']">
-                    <mat-icon>list</mat-icon>
+                    <mat-icon *ngIf="showHead">list</mat-icon>
                 </a>
             </div>
             <div>
                 <a style="color: white; " [routerLink]="['/ar']">
-                    <mat-icon>pie_chart</mat-icon>
+                    <mat-icon *ngIf="showHead">pie_chart</mat-icon>
                 </a>
             </div>
             <div>

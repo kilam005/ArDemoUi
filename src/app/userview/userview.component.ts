@@ -19,7 +19,6 @@ export class UserviewComponent implements OnInit, AfterViewInit {
     paymentToDate: Date;
     userFirstName = 'FUser';
     userLastName = 'LUser';
-
     maxDate: Date = new Date(new Date().setHours(23, 59, 59, 0));
     minDate: Date = new Date(1970, 1, 1);
 

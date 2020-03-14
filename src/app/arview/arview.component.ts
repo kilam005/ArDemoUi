@@ -104,12 +104,50 @@ export class ArviewComponent implements OnInit, AfterViewInit {
 
     doChart(res: any) {
         this.lineChartData[0].label = 'amount_received_list';
-        this.lineChartData[0].data = JSON.parse(JSON.stringify(res.amount_received_list));
+        let sortarr =[];
+        let json = {};
+        for (var product of res.amount_received_list) {
+            const formattedDt1 = formatDate(product.x, 'yyyy-MM-dd', 'en_US');
+             json = {x:formattedDt1,y:product.y}
+            sortarr.push(json);
+        }
+        this.lineChartData[0].data = JSON.parse(JSON.stringify(sortarr));
+        this.lineChartData = this.lineChartData.slice();
+        let arr =[];
+        let toDate =  new Date();
+        for (var product of res.amount_receivable_list) {
+            const formattedDt1 = formatDate(product.x, 'yyyy-MM-dd', 'en_US');
+            toDate = new Date(formattedDt1);
+            arr.push(formattedDt1);
+        }
+        for (var product of res.amount_received_list) {
+            const formattedDt1 = formatDate(product.x, 'yyyy-MM-dd', 'en_US');
+            var str = product.x;
+            if(arr.indexOf(formattedDt1) == -1){
+                arr.push(formattedDt1);
+            }
+
+        }
+
+        arr.sort(date_sort_asc);
+        var date_sort_asc = function (date1, date2) {
+            if (date1 > date2) return 1;
+            if (date1 < date2) return -1;
+            return 0;
+        };
+
+        let sortarr1 =[];
+        let json1 = {};
+        for (var product of res.amount_receivable_list) {
+            const formattedDt1 = formatDate(product.x, 'yyyy-MM-dd', 'en_US');
+            json1 = {x:formattedDt1,y:product.y}
+            sortarr1.push(json1);
+        }
+        this.lineChartData[1].label = 'amount_receivable_list';
+        this.lineChartData[1].data = JSON.parse(JSON.stringify(sortarr1));
         this.lineChartData = this.lineChartData.slice();
 
-        this.lineChartData[1].label = 'amount_receivable_list';
-        this.lineChartData[1].data = JSON.parse(JSON.stringify(res.amount_receivable_list));
-        this.lineChartData = this.lineChartData.slice();
+        this.lineChartLabels= arr;
     }
 
     getSortedArData(invIdInput, fromDateInput, toDateInput) {

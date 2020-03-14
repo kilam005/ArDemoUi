@@ -13,7 +13,8 @@ export class SearchresultService {
   private arsummaryUrl = 'http://localhost:8081/ar_demo/ar-summary/list/data?';
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getPatientWildSearch(param): Observable<any> {
     return this.http.get<any>(this.wildurl + param,
