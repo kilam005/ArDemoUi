@@ -34,16 +34,16 @@ export class ArviewComponent implements OnInit, AfterViewInit {
         {data: [40], label: 'Amount Received List'},
         {data: [90], label: 'Amount Receivable List'},
     ];
-    currentLineChartLabelsIdx = 0;
+
     lineChartLabels: Array<any>;
     lineChartOptions: any = {
         responsive: true
     };
     lineChartColors: Array<any> = [
-        { // grey
-            backgroundColor: 'rgba(148,159,177,0.2)',
-            borderColor: 'rgba(148,159,177,1)',
-            pointBackgroundColor: 'rgba(148,159,177,1)',
+        { // blue
+            backgroundColor: 'rgba(86,147,177,0.82)',
+            borderColor: 'rgba(9,130,177,0.82)',
+            pointBackgroundColor: 'rgba(9,130,177,0.82)',
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(148,159,177,0.8)'
@@ -105,11 +105,12 @@ export class ArviewComponent implements OnInit, AfterViewInit {
     doChart(res: any) {
         this.lineChartData[0].label = 'amount_received_list';
         this.lineChartData[0].data = JSON.parse(JSON.stringify(res.amount_received_list));
-        this.lineChartData = this.lineChartData.slice();
 
         this.lineChartData[1].label = 'amount_receivable_list';
         this.lineChartData[1].data = JSON.parse(JSON.stringify(res.amount_receivable_list));
-        this.lineChartData = this.lineChartData.slice();
+
+         this.lineChartData = this.lineChartData.slice();
+        console.log(this.lineChartData);
     }
 
     getSortedArData(invIdInput, fromDateInput, toDateInput) {
